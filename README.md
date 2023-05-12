@@ -44,6 +44,22 @@ These optimizations aim to enhance query performance by utilizing indexes for fi
 N-optimization involves optimizing queries to ensure their efficiency even when the number of rows in the database significantly increases. This can be accomplished by implementing various techniques such as index utilization, limiting the amount of processed data, and selecting only the required columns. Here are the N-optimizations for the queries used:<br><br>
 <B>Optimization of Goal 1:</B><br><br>
 To achieve N-optimization for this query, we can enhance its performance by creating an index on the cuisine column. This index will assist in efficiently filtering rows as the size of the database expands, ensuring that the query remains fast and scalable.<br><br>
+<B>N-Optimization of Goal 2:</B><br><br>
+To achieve N-optimization for this query, we previously implemented a spatial index on the geom column. By utilizing this spatial index, the database can perform spatial operations more efficiently, ensuring faster query execution, even when the number of rows in the database experiences significant growth.<br><br>
+However, the ST_Distance function may not be efficient with a large number of rows. To improve
+the performance, we can use the ST_DWithin function to filter only the cafes within a certain
+distance of the specific point, and then calculate the exact distance:<br><br>
+<B>N-Optimization of Goal 3:</B><br><br>
+For N-optimization of this query, we can leverage the previously created spatial index on the geom column. This spatial index significantly enhances the performance of spatial operations involved in the query, enabling efficient filtering of cafes within a 5000-meter radius of the specified point. As a result, the query execution remains fast and scalable, even as the size of the database grows.<br><br>
+These optimizations ensure efficient query execution, even as the database experiences significant growth in the number of rows. By implementing these optimizations, the queries will maintain their performance and scalability, handling larger datasets without compromising efficiency.<br><br>
+<B>Goal 8: Presentation and Posting to Individual GitHub</B><br><br>
+Here are the github links for all the 3 group members:<br><br>
+Brinda Patel<br><br>
+Avadhi Shah<br><br>
+Mudra Koradia<br><br>
+<B>Goal 9: Code functionality, documentation and proper output provided</B><br><br>
+This document already contains all the details<br><br>
+
 
 
 
