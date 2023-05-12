@@ -17,16 +17,16 @@ host=/var/run/postgresql port=5432" "/home/ubuntu/export.geojson"
 -nln public.geo_features -lco GEOMETRY_NAME=geom -lco FID=gid -lco
 PRECISION=NO -nlt PROMOTE_TO_MULTI -a_srs EPSG:4326<br><br>
 <B>Goal 1: Retrieve Locations of Specific Features</B><br><br>
-To retrieve the locations of cafes that are marked as "coffee_shop" for cuisine, we executed the following query:<br><br>
+This query retrieves the unique identifier, ID, area, and location of the first 5 train stations that have internet access from the "train_station" table.<br><br>
 <B>Goal 2: Retrieve Locations of Specific Features</B><br><br>
-To determine the distance between two points, we employed the ST_Distance function from PostGIS. Initially, we identified two points based on their unique gid values, and subsequently employed the geom column to perform the distance calculation.<br><br>
+This query retrieves the gid, id, area, location, station, and subway information of the train stations that have the name 'Grand Central Station' and limits the result to 5 rows. It is used to retrieve specific information about the train stations with a specific name.<br><br>
 <B>Goal 3: Calculate Areas of Interest (Specific to Each Group)</B><br><br>
-Using the available data, our objective is to generate a buffer area of 500 meters around cafes situated within buildings. We will subsequently compute the area of the resulting polygons.<br><br>
-To accomplish this, the following query creates a temporary table called "buffer_areas." This table consists of a single row that represents the union of the 500-meter buffer areas surrounding cafes situated within buildings. Subsequently, the query calculates the area of the resultant polygon in square meters.<br><br>
+This query calculates the buffer of 1 mile around the train stations that have internet access, by creating two CTEs: internet_stations and buffers. The first one selects the relevant stations and transforms the geometry to a projected coordinate system. The second one calculates the buffer around the transformed geometries. Finally, the main query selects the resulting buffer geometries and calculates their area, returning the geometry and area of the first buffer in the result set with a limit of 1.<br><br>
+The query will retrieve the area of a buffer of 1 mile (5280 feet) around the train stations that have internet access. The output will include the buffer geometry and its corresponding area. The LIMIT clause limits the output to only one record.Subsequently, the query calculates the area of the resultant polygon in square meters.<br><br>
 <B>Goal 4: Query Analysis</B><br><br>
 Analyzing queries is crucial for understanding the efficiency and effectiveness of your queries. In PostgreSQL, you have the option to employ the EXPLAIN or EXPLAIN ANALYZE command to delve into your queries. The EXPLAIN command furnishes a query execution plan, while the EXPLAIN ANALYZE command executes the query and provides additional details, such as actual execution times and the count of returned rows.<br><br>
 <B>Goal 5: Sorting and Limit Executions</B><br><br>
-Achieving our goal of retrieving the most pertinent data or presenting results in a user-friendly format involves incorporating sorting and limiting techniques in query results. By utilizing the ORDER BY clause, we can arrange the results in a desired order, while the LIMIT clause allows us to restrict the number of rows returned to a specified amount.<br><br>
+Sorting and limiting query results can help optimize queries by reducing the amount of data that needs to be processed and returned. By limiting the number of rows returned and ordering them according to specific criteria, the database can process the query more efficiently, improving its performance and reducing the amount of time it takes to execute. This can be particularly useful for queries that return large amounts of data or are executed frequently.<br><br>
 <B>Goal 6: Query Optimization for Improved Execution Time</B><br><br>
 To enhance the execution time of queries, optimizing techniques such as index utilization, simplifying calculations, and reducing the number of scanned rows can be employed. Here are some optimization techniques applied to the previously used queries:<br><br>
 Index utilization: Utilizing indexes efficiently helps accelerate query performance. By creating and properly utilizing indexes on frequently queried columns, database systems can quickly locate the required data.<br><br>
@@ -34,7 +34,7 @@ Simplifying calculations: Simplifying complex calculations within queries can le
 Reducing the number of scanned rows: Employing appropriate filtering conditions, such as utilizing WHERE clauses, can minimize the number of rows scanned by the database engine. This can significantly improve query performance, especially when dealing with large datasets.<br><br>
 In summary, optimizing queries involves leveraging indexes, simplifying calculations, and reducing the number of scanned rows to enhance execution time and overall query performance.<br><br>
 <B>Optimization of Goal 1:</B><br><br>
-To improve the performance of this query, we can enhance its optimization by creating an index on the cuisine column. This index will expedite the selection process, resulting in faster retrieval of the desired data.<br><br>
+This query is trying to find the first 5 rows in the `train_station` table where the value of the `internet_access` column is "yes". To improve the performance of this query, an index has been created on the `internet_access` column. The `explain` command can be used to see how the database is executing the query and which indexes are being used.<br><br>
 <B>Optimization of Goal 2:</B><br><br>
 We can create a spatial index on the geom column to speed up spatial operations:<br><br>
 <B>Optimization of Goal 3:</B><br><br>
